@@ -32,6 +32,7 @@ walldir = ''
 confdir = ''
 savedir = ''
 sortby = ''
+time = ''
 opsys = platform.system()
 
 
@@ -96,6 +97,7 @@ def parse_config():
     global randomsub
     global lottery
     global sortby
+    global time
     if config.get('Title Overlay', 'titlegravity', fallback=None) is not None:
         print("You are using an old (pre v3) configuration file.  Please delete your config file at " + confdir +
               " and let the program create a new one.")
@@ -110,6 +112,7 @@ def parse_config():
     randomsub = config.getboolean('Options', 'random', fallback=False)
     lottery = config.getboolean('Options', 'lottery', fallback=False)
     sortby = config.get('Options', 'sortby', fallback="hot")
+    time = config.get('Options', 'time', fallback="day")
     setcmd = config.get('SetCommand', 'setcommand', fallback='')
     settitle = config.getboolean('Title Overlay', 'settitle', fallback=False)
     titlesize = config.getint('Title Overlay', 'titlesize', fallback=24)
@@ -132,6 +135,7 @@ def parse_config():
 # parses command-line arguments and stores them to proper global variables
 def parse_args():
     sort_by_values = ["hot", "new", "controversial", "top", "rising"]
+    time_intervals = ["hour", "day", "week", "month", "year", "all"]
     parser = argparse.ArgumentParser(description="Pulls wallpapers from specified subreddits in reddit.com")
     parser.add_argument("subreddits", help="subreddits to check for wallpapers", nargs="*")
     parser.add_argument("-v", "--verbose", help="increases program verbosity", action="store_true")
@@ -151,6 +155,7 @@ def parse_args():
     parser.add_argument("-b", "--blacklist", help="blacklists the current wallpaper and downloads a new wallpaper",
                         action="store_true")
     parser.add_argument("-s", "--sort-by", help="choose Reddit's sorting algorithm from {} (default=hot)".format(sort_by_values))
+    parser.add_argument("-t", "--time", help="choose the time period to search with top sort from {} (default=day)".format(time_intervals))
     parser.add_argument("--random",
                         help="will pick a random subreddit from the ones provided instead of turning them into a multireddit",
                         action="store_true")
@@ -170,6 +175,7 @@ def parse_args():
     global blacklistcurrent
     global lottery
     global sortby
+    global time
     if not args.subreddits == []:
         subs = args.subreddits
     verbose = args.verbose
@@ -189,6 +195,8 @@ def parse_args():
         lottery = True
     if args.sort_by in sort_by_values:
         sortby = args.sort_by
+    if args.time in time_intervals:
+        time = args.time
 
 # in - string - messages to print
 # takes a string and will print it as output if verbose

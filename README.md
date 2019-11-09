@@ -41,6 +41,7 @@ The config file is in `~/.config/wallpaper-reddit`, and will be created automati
 - `maxlinks` is the maximum number of links the script will go through before giving up.
 - `resize` does the same thing as the `--resize` flag.  It is enabled by default.
 - `random` does the same thing as the `--random` flag.
+- `time` specifies the time period to search if using sorting by `top` posts. Valid options are `hour`, `day`, `week`, `month`, `year`, `all`. Defauls to `day` if not specified.
 
 ## Overlay Titles
 The program has an option to overlay the title of the image directly onto the image itself, so using conky to constantly read the title of the image from `~/.wallpaper/title.txt` is no longer necessary (although it still works, and is recommended if not using the "resize" option).  This function is not enabled by default, but it can be enabled with either the `--settitle` command line flag or more permanently in the config under the `[Title Overlay]` section. There are five options for setting titles: size, x/y alignment, and x/y offset.  
